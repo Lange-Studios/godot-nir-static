@@ -36,7 +36,8 @@ def generate(env):
         env["is_msvc"] = True
 
         # MSVC, linker, and archiver.
-        msvc.generate(env)
+        if env["platform_tools"]:
+            msvc.generate(env)
         env.Tool("mslib")
         env.Tool("mslink")
 
@@ -58,7 +59,8 @@ def generate(env):
 
     elif (sys.platform == "win32" or sys.platform == "msys") and not env["mingw_prefix"]:
         env["use_mingw"] = True
-        mingw.generate(env)
+        if env["platform_tools"]:
+            mingw.generate(env)
         env.Append(CPPDEFINES=["MINGW_ENABLED"])
         # Don't want lib prefixes
         env["IMPLIBPREFIX"] = ""
